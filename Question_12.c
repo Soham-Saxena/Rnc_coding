@@ -16,7 +16,7 @@ int main()
 
     printf("Length of string: %d\nLength of substring: %d\n", s_length, sublength);
 
-    for (i = 0; i < s_length - sublength; i++)
+    for (i = 0; i <= s_length - sublength; i++)
         {
             if (string[i] == substring[0])
             {
@@ -42,7 +42,7 @@ int main()
     }
     else
         printf("Substring found at index: %d\n", i + 1);
-        for (j = 0; j < s_length - sublength; j++)
+        for (j = 0; j <= s_length - sublength; j++)
         {
             string[i + j] = string[i + j + sublength];
         }
