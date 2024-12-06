@@ -1,0 +1,140 @@
+class Node():
+    def __init__(self, value):
+        self.data = value
+        self.ref = None
+    def reference(self, ref):
+        self.ref = ref
+    def setval(self, value):
+        self.data = value
+    
+class Linked_list():
+    def __init__(self):
+        self.head = None
+        self.nodes = 0
+    def add_end(self, element):
+        temp = self.head
+        self.nodes += 1
+        print(f"Number of nodes in the list: {self.nodes}")
+        element = Node(element)
+        if self.head is None:
+            self.head = element
+        else:
+            temp = self.head
+            for i in range(self.nodes-1):
+                if temp.ref is None:
+                    temp.ref = element
+                temp = temp.ref
+    def add_begining(self, element):
+        temp = self.head
+        self.nodes += 1
+        self.head = Node(element)
+        if temp is not None:
+            self.head.ref = temp
+    def traverse_list(self):
+        temp = self.head
+        if temp is None:
+            print("Linked list is empty.")
+        else:
+            for i in range(self.nodes):
+                print(temp.data, end = " ")
+                temp = temp.ref
+            print("")
+    def search(self, element):
+        nodes = []
+        c_node = 1
+        temp = self.head
+        if temp is None:
+            print("Linked list is empty.")
+        else:
+            for i in range(self.nodes):
+                if temp.data == element:
+                    nodes.append(c_node)
+                c_node += 1
+                temp = temp.ref
+        if (len(nodes) == 1):
+            return nodes[0]
+        elif (len(nodes) > 1):
+            return nodes
+        else:
+            return -1
+    def delete_node(self, node):
+        temp1 = self.head
+        if temp1 is None:
+            print("Linked list is empty")
+        else:
+            for i in range(node-1):
+                temp1 = temp1.ref
+            temp2 = temp1.ref.ref
+            temp1.ref = temp2
+            self.nodes -= 1
+    def delete_element(self, element):
+        node = self.search(element)
+        if node == -1:
+            print("Element not found in list.")
+        else:
+            if isinstance(node, int):
+                self.delete_node(node)
+                print("Element deleted succesfully.")
+            else:
+                print(f"{len(node)} occurances of elements found. What would you like to do?")
+                choice = int(input("Delete all (1)\nDelete specific occurances (2)"))
+                while choice in range(1, 2):
+                    print("Invalid input.")
+                    choice = int(input("Delete all (1)\nDelete specific occurances (2)"))
+                if choice == 1:
+                    for n in node:
+                        self.delete_node(n)
+                    print("All occurances deleted succesfully.")
+                else:
+                    print(f"Elements occur at nodes: {node}")
+                    nodes = map(int, input("Enter the nodes u want to delete: ").split())
+                    print(nodes)
+                    while nodes not in node:
+                        print("Nodes specified not in range.")
+                        nodes = map(int, input("Enter the nodes u want to delete: ").split())
+                    for n in nodes:
+                        self.delete_node(n)
+                    
+List = Linked_list()
+
+while True:
+    choice = input("Operations:\nAdd element from end(1)\nView list(2)\nAdd element from beginning(3)\nSearch for an element(4)\nDelete a node(5)\nDelete an element from List(6)\nExit(7)\n1")
+    try:
+        choice = int(choice)
+    except:
+        print("Input entered is not an integer.")
+        continue
+    if choice == 1:
+        element = int(input("Enter element to add at end: "))
+        List.add_end(element)
+        print(f"Element {element} added to end of List successfully.")
+    elif choice == 2:
+        print("Linked list contains: ", end = '')
+        List.traverse_list()
+    elif choice == 3:
+        element = int(input("Enter element to add at beginning: "))
+        List.add_begining(element)
+        print(f"Element {element} added to beginning successfully.")
+    elif choice == 4:
+        element = int(input("Enter element to search in linked list: "))
+        node = List.search(element)
+        if isinstance(node, list):
+            print(f"Element stored in nodes {node}.")
+        elif node == -1:
+            print("Element not found.")
+        else:
+            print(f"Element stored in node {node}.")
+    elif choice == 5:
+        print(f"Available nodes: {List.nodes}")
+        node = int(input("Enter node to delete: "))
+        while node < 1 or node > List.nodes:
+            print("Node entered not available.")
+            node = int(input("Enter node to delete: "))
+        List.delete_node(node)
+        print(f"Node {node} deleted succesfully.")  
+    elif choice == 6:
+        element = int(input("Enter element you want to delete: "))
+        List.delete_element(element)          
+    elif choice == 7:
+        print("Exiting.")
+        break
